@@ -21,6 +21,10 @@ public class WaveGenerator : MonoBehaviour
     private float lastAboveTime = -10f;
     private float lastBelowTime = -10f;
 
+    public AudioClip crouchSound;
+    public AudioClip jumpSound;
+    public AudioSource audioSource;
+
     void Update()
     {
         if (sensorObject == null) return;
@@ -30,6 +34,21 @@ public class WaveGenerator : MonoBehaviour
 
         Vector3 wavePosition = new Vector3(sensorObject.transform.position.x, 0.5f, sensorObject.transform.position.z);
         Quaternion rotation = Quaternion.Euler(90f, 0f, 0f);
+
+        // ——— Pruebas en teclado ———
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            // Onda de salto con tecla “1”
+            Instantiate(wavePrefabjump, wavePosition, rotation);
+            PlaySound(jumpSound, wavePosition);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            // Onda de agacharse con tecla “2”
+            Instantiate(wavePrefabcroach, wavePosition, rotation);
+            PlaySound(crouchSound, wavePosition);
+        }
+
 
         // Jump detection
         if (z > upperBound)
@@ -43,6 +62,7 @@ public class WaveGenerator : MonoBehaviour
                 {
                     // Jump after crouch ? spawn jump wave
                     Instantiate(wavePrefabjump, wavePosition, rotation);
+                    PlaySound(jumpSound, wavePosition); // Play jump sound
                 }
             }
         }
@@ -63,12 +83,31 @@ public class WaveGenerator : MonoBehaviour
                 {
                     // Crouch after jump ? spawn crouch wave
                     Instantiate(wavePrefabcroach, wavePosition, rotation);
+                    PlaySound(crouchSound, wavePosition); // Play crouch sound
                 }
             }
         }
         else
         {
             wasBelow = false;
+        }
+
+
+        void PlaySound(AudioClip clip, Vector3 position)
+        {
+            if (clip == null)
+            {
+                return;
+            }
+            if (audioSource != null)
+            {
+                audioSource.PlayOneShot(clip);
+            }
+
+            else
+            {
+                AudioSource.PlayClipAtPoint(clip, position);
+            }
         }
     }
 }
