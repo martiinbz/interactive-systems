@@ -6,7 +6,7 @@ public class WaveCollider : MonoBehaviour
 {
     public float expansionSpeed = 5f;
     public float maxScale = 10f;
-
+    public GameManager gamescript;
     private Vector3 startScale;
 
     void Start()
@@ -28,6 +28,17 @@ public class WaveCollider : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Wave hit: " + other.name);
+
         //for the moment
+        if (other.name.ToLower().Contains("Red"))
+        {
+            gamescript.RegisterHit("Red");
+        }
+        else if (other.name.ToLower().Contains("Blue"))
+        {
+            gamescript.RegisterHit("Blue");
+        }
+
+
     }
 }
