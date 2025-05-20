@@ -35,5 +35,6 @@ public class GameManager : MonoBehaviour
     {
         redScoreText.text = "Red: " + redScore;
         blueScoreText.text = "Blue: " + blueScore;
+        Debug.Log("Blue score:"  + blueScore + " Red score: " + redScore  );
     }
 }

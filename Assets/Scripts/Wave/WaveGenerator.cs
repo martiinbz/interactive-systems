@@ -48,6 +48,24 @@ public class WaveGenerator : MonoBehaviour
             Instantiate(wavePrefabcroach, wavePosition, rotation);
             PlaySound(crouchSound, wavePosition);
         }
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            // Onda de agacharse con tecla “2”
+            upperBound = sensorObject.transform.position.y;
+            upperBound -= 0.2f;
+            Debug.Log("Upper bound: " + upperBound);
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            // Onda de agacharse con tecla “2”
+            lowerBound = sensorObject.transform.position.y;
+            lowerBound += 0.2f;
+            Debug.Log("Lower bound: " + lowerBound);
+
+
+
+
+        }
 
 
         // Jump detection
@@ -100,7 +118,7 @@ public class WaveGenerator : MonoBehaviour
                 return;
             }
             if (audioSource != null)
-            {
+            { 
                 audioSource.PlayOneShot(clip);
             }
 

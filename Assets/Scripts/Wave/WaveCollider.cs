@@ -9,6 +9,7 @@ public class WaveCollider : MonoBehaviour
     public GameManager gamescript;
     private Vector3 startScale;
 
+
     void Start()
     {
         startScale = transform.localScale;
