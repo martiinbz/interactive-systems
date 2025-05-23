@@ -12,10 +12,8 @@ GameObject:
   - component: {fileID: 2250184792144192266}
   - component: {fileID: 1060896728502008494}
   - component: {fileID: 9051664131400759718}
-  - component: {fileID: 650424293834588043}
   - component: {fileID: 8993556264704843214}
   - component: {fileID: 8315105099664877237}
-  - component: {fileID: 8224677168904372347}
   m_Layer: 0
   m_Name: WaveRed
   m_TagString: Untagged
@@ -30,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1485441848106937134}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0.060000237, z: -0.035999995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -100,20 +98,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &650424293834588043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1485441848106937134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82b3c0f9cc9b5244fb9647ef56cb196f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  expansionSpeed: 30
-  maxScale: 70
 --- !u!135 &8993556264704843214
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -141,16 +125,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   expansionSpeed: 30
   maxScale: 70
---- !u!114 &8224677168904372347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1485441848106937134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97172096f6bdc09439e0e6307a772b2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waveType: 0
+  wave_color: 1
+  original_player: 0

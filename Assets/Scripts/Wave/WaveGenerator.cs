@@ -21,12 +21,16 @@ public class WaveGenerator : MonoBehaviour
     private float lastAboveTime = -10f;
     private float lastBelowTime = -10f;
 
+    private int bullets = 2;
+
     public AudioClip crouchSound;
     public AudioClip jumpSound;
     public AudioSource audioSource;
 
     void Update()
     {
+        bullets = getbulletsfromManager();
+        //Debug.Log("Bullets: " + bullets);
         if (sensorObject == null) return;
 
         float z = sensorObject.transform.position.y;
@@ -36,16 +40,38 @@ public class WaveGenerator : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(90f, 0f, 0f);
 
         // ——— Pruebas en teclado ———
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && bullets > 0)
         {
             // Onda de salto con tecla “1”
-            Instantiate(wavePrefabjump, wavePosition, rotation);
+            GameObject wave = Instantiate(wavePrefabjump, wavePosition, rotation);
+            WaveCollider wavescript = wave.GetComponent<WaveCollider>();
+            Debug.Log("Wavescript: " + wavescript);
+            if (sensorObject.name == "Player1")
+            {
+                wavescript.setoriginal_player(true);
+            }
+            else
+            {
+                wavescript.setoriginal_player(false);
+            }
+            updatebulletstoManager();
             PlaySound(jumpSound, wavePosition);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2) && bullets > 0)
         {
             // Onda de agacharse con tecla “2”
-            Instantiate(wavePrefabcroach, wavePosition, rotation);
+            GameObject wave = Instantiate(wavePrefabcroach, wavePosition, rotation);
+            WaveCollider wavescript = wave.GetComponent<WaveCollider>();
+            Debug.Log("Wavescript: " + wavescript);
+            if (sensorObject.name == "Player1")
+            {
+                wavescript.setoriginal_player(true);
+            }
+            else
+            {
+                wavescript.setoriginal_player(false);
+            }
+            updatebulletstoManager();
             PlaySound(crouchSound, wavePosition);
         }
 
@@ -53,15 +79,29 @@ public class WaveGenerator : MonoBehaviour
         // Jump detection
         if (z > upperBound)
         {
+            if (sensorObject.name == "Player1")
+                GameManager.Instance.stateplayer1 = 2; // Set player state to jump
+            else
+                GameManager.Instance.stateplayer2 = 2; // Set player state to jump
             if (!wasAbove)
             {
                 wasAbove = true;
                 lastAboveTime = currentTime;
 
-                if (currentTime - lastBelowTime <= timeWindow)
+                if (currentTime - lastBelowTime <= timeWindow && bullets > 0)
                 {
                     // Jump after crouch ? spawn jump wave
-                    Instantiate(wavePrefabjump, wavePosition, rotation);
+                    GameObject wave = Instantiate(wavePrefabjump, wavePosition, rotation);
+                    WaveCollider wavescript = wave.GetComponent<WaveCollider>();
+                    if (sensorObject.name == "Player1")
+                    {
+                        wavescript.original_player = true;
+                    }
+                    else
+                    {
+                        wavescript.original_player = false;
+                    }
+                    updatebulletstoManager();
                     PlaySound(jumpSound, wavePosition); // Play jump sound
                 }
             }
@@ -74,15 +114,30 @@ public class WaveGenerator : MonoBehaviour
         // Crouch detection
         if (z < lowerBound)
         {
+            if (sensorObject.name == "Player1")
+                GameManager.Instance.stateplayer1 = 1; // Set player state to jump
+            else
+                GameManager.Instance.stateplayer2 = 1; // Set player state to jump
             if (!wasBelow)
             {
                 wasBelow = true;
                 lastBelowTime = currentTime;
 
-                if (currentTime - lastAboveTime <= timeWindow)
+                if (currentTime - lastAboveTime <= timeWindow && bullets > 0)
                 {
                     // Crouch after jump ? spawn crouch wave
-                    Instantiate(wavePrefabcroach, wavePosition, rotation);
+                    GameObject wave = Instantiate(wavePrefabcroach, wavePosition, rotation);
+                    WaveCollider wavescript = wave.GetComponent<WaveCollider>();
+                    Debug.Log("Wavescript: " + wavescript);
+                    if (sensorObject.name == "Player1")
+                    {
+                        wavescript.original_player = true;
+                    }
+                    else
+                    {
+                        wavescript.original_player = false;
+                    }
+                    updatebulletstoManager();
                     PlaySound(crouchSound, wavePosition); // Play crouch sound
                 }
             }
@@ -90,6 +145,13 @@ public class WaveGenerator : MonoBehaviour
         else
         {
             wasBelow = false;
+        }
+        if(!wasBelow && !wasAbove)
+        {
+            if (sensorObject.name == "Player1")
+                GameManager.Instance.stateplayer1 = 0; // Set player state to jump
+            else
+                GameManager.Instance.stateplayer2 = 0; // Set player state to jump
         }
 
 
@@ -108,6 +170,25 @@ public class WaveGenerator : MonoBehaviour
             {
                 AudioSource.PlayClipAtPoint(clip, position);
             }
+        }
+
+        int getbulletsfromManager()
+        {
+            if (sensorObject.name == "Player1")
+                return GameManager.Instance.bullet_play1; //get bullets from manager
+            else
+                return GameManager.Instance.bullet_play2;
+            return 0;
+        }
+
+        void updatebulletstoManager()
+        {
+            Debug.Log("Update bullets to manager");
+            bullets = bullets - 1;
+            if (sensorObject.name == "Player1")
+                GameManager.Instance.bullet_play1 = bullets; //get bullets from manager
+            else
+                GameManager.Instance.bullet_play2 = bullets;
         }
     }
 }
