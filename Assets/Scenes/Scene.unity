@@ -9981,7 +9981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d2a8abd24470e7498faba55fe5174d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabBullet: {fileID: 3636784785397927078, guid: 2505e8549dcaf7741bf87c883fc8e331, type: 3}
+  prefabBullet: {fileID: 6681766636307311056, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
   spawnRadius: 45
   spawnInterval: 3
   maxObjects: 3
@@ -10323,7 +10323,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1305877367
 Transform:
   m_ObjectHideFlags: 0
