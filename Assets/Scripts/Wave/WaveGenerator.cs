@@ -14,7 +14,7 @@ public class WaveGenerator : MonoBehaviour
     public float upperBound = 1; // Upper bound for the Z position, from normal to jump
 
     //The idea is to make a pseudostate machine
-    public float timeWindow = 0.5f; // Max time allowed between states
+    public float timeWindow = 2.0f; // Max time allowed between states
 
     private bool wasAbove = false;
     private bool wasBelow = false;
@@ -74,6 +74,26 @@ public class WaveGenerator : MonoBehaviour
             updatebulletstoManager();
             PlaySound(crouchSound, wavePosition);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            lowerBound -= 0.1f;
+            Debug.Log("Lower Bound: " + lowerBound);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            lowerBound += 0.1f;
+            Debug.Log("Lower Bound: " + lowerBound);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            upperBound -= 0.1f;
+            Debug.Log("Upper Bound: " + upperBound);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            upperBound += 0.1f;
+            Debug.Log("Upper Bound: " + upperBound);
+        }
 
 
         // Jump detection
@@ -88,21 +108,21 @@ public class WaveGenerator : MonoBehaviour
                 wasAbove = true;
                 lastAboveTime = currentTime;
 
-                if (currentTime - lastBelowTime <= timeWindow && bullets > 0)
+                if (Time.time - lastBelowTime <= timeWindow && bullets > 0)
                 {
-                    // Jump after crouch ? spawn jump wave
                     GameObject wave = Instantiate(wavePrefabjump, wavePosition, rotation);
                     WaveCollider wavescript = wave.GetComponent<WaveCollider>();
+                    Debug.Log("Wavescript: " + wavescript);
                     if (sensorObject.name == "Player1")
                     {
-                        wavescript.original_player = true;
+                        wavescript.setoriginal_player(true);
                     }
                     else
                     {
-                        wavescript.original_player = false;
+                        wavescript.setoriginal_player(false);
                     }
                     updatebulletstoManager();
-                    PlaySound(jumpSound, wavePosition); // Play jump sound
+                    PlaySound(jumpSound, wavePosition);
                 }
             }
         }
@@ -123,22 +143,22 @@ public class WaveGenerator : MonoBehaviour
                 wasBelow = true;
                 lastBelowTime = currentTime;
 
-                if (currentTime - lastAboveTime <= timeWindow && bullets > 0)
+                if (Time.time - lastAboveTime <= timeWindow && bullets > 0)
                 {
-                    // Crouch after jump ? spawn crouch wave
+                    // Onda de agacharse con tecla “2”
                     GameObject wave = Instantiate(wavePrefabcroach, wavePosition, rotation);
                     WaveCollider wavescript = wave.GetComponent<WaveCollider>();
                     Debug.Log("Wavescript: " + wavescript);
                     if (sensorObject.name == "Player1")
                     {
-                        wavescript.original_player = true;
+                        wavescript.setoriginal_player(true);
                     }
                     else
                     {
-                        wavescript.original_player = false;
+                        wavescript.setoriginal_player(false);
                     }
                     updatebulletstoManager();
-                    PlaySound(crouchSound, wavePosition); // Play crouch sound
+                    PlaySound(crouchSound, wavePosition);
                 }
             }
         }

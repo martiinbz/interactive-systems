@@ -2613,7 +2613,7 @@ MonoBehaviour:
   waveHeightMultiplier: 1
   lowerBound: 0.7
   upperBound: 1.5
-  timeWindow: 0.5
+  timeWindow: 2
   crouchSound: {fileID: 8300000, guid: c4976f6a6ac47ad498d5ada841954fe8, type: 3}
   jumpSound: {fileID: 8300000, guid: 2949dd14171ade24b9aaab9211b680b1, type: 3}
   audioSource: {fileID: 508952998}
@@ -2649,7 +2649,7 @@ MonoBehaviour:
   waveHeightMultiplier: 1
   lowerBound: 0.7
   upperBound: 1.5
-  timeWindow: 0.5
+  timeWindow: 2
   crouchSound: {fileID: 8300000, guid: c4976f6a6ac47ad498d5ada841954fe8, type: 3}
   jumpSound: {fileID: 8300000, guid: 2949dd14171ade24b9aaab9211b680b1, type: 3}
   audioSource: {fileID: 508952998}
@@ -5375,7 +5375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   calibrationUI: {fileID: 220600117}
   trackingInterface: {fileID: 220600112}
-  enableTracking: 0
+  enableTracking: 1
   numberOfPlayers: 2
   numberOfBaseStations: 4
   enableRotation: 1
