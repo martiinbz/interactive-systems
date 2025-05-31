@@ -6,38 +6,60 @@ public class EnvironmentSelector : MonoBehaviour
     public GameObject desertTheme;
     public GameObject snowTheme;
 
-    public GameObject themeSelectionUI;
+    public GameObject[] themeButtons; // Assign the 3 physical buttons
+    public GameObject menuButton;     // Assign the menu button object
 
-    private bool menuVisible = true;
-
-    void Update()
+    void Start()
     {
-        // Pulsar T para mostrar/ocultar el menú
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            ToggleUI();
-        }
+        ShowThemeButtons(); // Initial state: show the 3 buttons
     }
 
     public void SelectForest()
     {
         DisableAllThemes();
         forestTheme.SetActive(true);
-        HideUI();
+        GameManager.Instance.ResetGame(); 
+        SwitchToMenuButton();
     }
 
     public void SelectDesert()
     {
         DisableAllThemes();
         desertTheme.SetActive(true);
-        HideUI();
+        GameManager.Instance.ResetGame();
+        SwitchToMenuButton();
     }
 
     public void SelectSnow()
     {
         DisableAllThemes();
         snowTheme.SetActive(true);
-        HideUI();
+        GameManager.Instance.ResetGame();
+        SwitchToMenuButton();
+    }
+
+    public void SelectMenu()
+    {
+        DisableAllThemes();
+        ShowThemeButtons();
+    }
+
+    public void SwitchToMenuButton()
+    {
+        foreach (GameObject button in themeButtons)
+            button.SetActive(false);
+
+        menuButton.SetActive(true);
+    }
+
+    public void ShowThemeButtons()
+    {
+        foreach (GameObject button in themeButtons)
+            button.SetActive(true);
+
+        menuButton.SetActive(false);
+        GameManager.Instance.ResetGame();
+        GameManager.Instance.unablebuttonsround();
     }
 
     void DisableAllThemes()
@@ -45,17 +67,5 @@ public class EnvironmentSelector : MonoBehaviour
         forestTheme.SetActive(false);
         desertTheme.SetActive(false);
         snowTheme.SetActive(false);
-    }
-
-    void HideUI()
-    {
-        themeSelectionUI.SetActive(false);
-        menuVisible = false;
-    }
-
-    void ToggleUI()
-    {
-        menuVisible = !menuVisible;
-        themeSelectionUI.SetActive(menuVisible);
     }
 }

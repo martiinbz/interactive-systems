@@ -18,6 +18,10 @@ public class SpawnerSafeZone : MonoBehaviour
 
     void TrySpawn()
     {
+        if (!GameManager.Instance.roundActive)
+        {
+            return; // Do not spawn during active rounds
+        }
         spawnedObjects.RemoveAll(obj => obj == null);
 
         if (spawnedObjects.Count >= maxObjects)

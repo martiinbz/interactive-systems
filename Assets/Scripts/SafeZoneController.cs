@@ -59,4 +59,27 @@ public class SafeZoneController : MonoBehaviour
             mat.color = c;
         }
     }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "Player1")
+        {
+            GameManager.Instance.safe_player("Player1");
+        }
+        else if (other.gameObject.name == "Player2")
+        {
+            GameManager.Instance.safe_player("Player2");
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.name == "Player1")
+        {
+            GameManager.Instance.unsafe_player("Player1");
+        }
+        else if (other.gameObject.name == "Player2")
+        {
+            GameManager.Instance.unsafe_player("Player2");
+        }
+    }
 }
