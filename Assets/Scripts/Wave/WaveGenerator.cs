@@ -23,6 +23,12 @@ public class WaveGenerator : MonoBehaviour
 
     private int bullets = 2;
 
+    public float waveCooldown = 1.5f;
+
+    private float lastWaveTimePlayer1 = -10f;
+    private float lastWaveTimePlayer2 = -10f;
+
+
     public AudioClip crouchSound;
     public AudioClip jumpSound;
     public AudioSource audioSource;
@@ -39,10 +45,10 @@ public class WaveGenerator : MonoBehaviour
         Vector3 wavePosition = new Vector3(sensorObject.transform.position.x, 0.5f, sensorObject.transform.position.z);
         Quaternion rotation = Quaternion.Euler(90f, 0f, 0f);
 
-        // ——— Pruebas en teclado ———
-        if (Input.GetKeyDown(KeyCode.Alpha1) && bullets > 0)
+        // ï¿½ï¿½ï¿½ Pruebas en teclado ï¿½ï¿½ï¿½
+        if (Input.GetKeyDown(KeyCode.Alpha1) && bullets > 0 && CanGenerateWave())
         {
-            // Onda de salto con tecla “1”
+            // Onda de salto con tecla ï¿½1ï¿½
             GameObject wave = Instantiate(wavePrefabjump, wavePosition, rotation);
             WaveCollider wavescript = wave.GetComponent<WaveCollider>();
             Debug.Log("Wavescript: " + wavescript);
@@ -56,10 +62,11 @@ public class WaveGenerator : MonoBehaviour
             }
             updatebulletstoManager();
             PlaySound(jumpSound, wavePosition);
+            UpdateLastWaveTime();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && bullets > 0)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && bullets > 0 && CanGenerateWave())
         {
-            // Onda de agacharse con tecla “2”
+            // Onda de agacharse con tecla ï¿½2ï¿½
             GameObject wave = Instantiate(wavePrefabcroach, wavePosition, rotation);
             WaveCollider wavescript = wave.GetComponent<WaveCollider>();
             Debug.Log("Wavescript: " + wavescript);
@@ -73,6 +80,7 @@ public class WaveGenerator : MonoBehaviour
             }
             updatebulletstoManager();
             PlaySound(crouchSound, wavePosition);
+            UpdateLastWaveTime();
         }
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
@@ -108,7 +116,7 @@ public class WaveGenerator : MonoBehaviour
                 wasAbove = true;
                 lastAboveTime = currentTime;
 
-                if (Time.time - lastBelowTime <= timeWindow && bullets > 0)
+                if (currentTime - lastBelowTime <= timeWindow && bullets > 0 && CanGenerateWave())
                 {
                     GameObject wave = Instantiate(wavePrefabjump, wavePosition, rotation);
                     WaveCollider wavescript = wave.GetComponent<WaveCollider>();
@@ -122,7 +130,8 @@ public class WaveGenerator : MonoBehaviour
                         wavescript.setoriginal_player(false);
                     }
                     updatebulletstoManager();
-                    PlaySound(jumpSound, wavePosition);
+                    PlaySound(jumpSound, wavePosition); // Play jump sound
+                    UpdateLastWaveTime();
                 }
             }
         }
@@ -143,9 +152,9 @@ public class WaveGenerator : MonoBehaviour
                 wasBelow = true;
                 lastBelowTime = currentTime;
 
-                if (Time.time - lastAboveTime <= timeWindow && bullets > 0)
+                if (currentTime - lastAboveTime <= timeWindow && bullets > 0 && CanGenerateWave())
                 {
-                    // Onda de agacharse con tecla “2”
+                    // Onda de agacharse con tecla ï¿½2ï¿½
                     GameObject wave = Instantiate(wavePrefabcroach, wavePosition, rotation);
                     WaveCollider wavescript = wave.GetComponent<WaveCollider>();
                     Debug.Log("Wavescript: " + wavescript);
@@ -158,7 +167,8 @@ public class WaveGenerator : MonoBehaviour
                         wavescript.setoriginal_player(false);
                     }
                     updatebulletstoManager();
-                    PlaySound(crouchSound, wavePosition);
+                    PlaySound(crouchSound, wavePosition); // Play crouch sound
+                    UpdateLastWaveTime();
                 }
             }
         }
@@ -166,7 +176,7 @@ public class WaveGenerator : MonoBehaviour
         {
             wasBelow = false;
         }
-        if(!wasBelow && !wasAbove)
+        if (!wasBelow && !wasAbove)
         {
             if (sensorObject.name == "Player1")
                 GameManager.Instance.stateplayer1 = 0; // Set player state to jump
@@ -210,5 +220,21 @@ public class WaveGenerator : MonoBehaviour
             else
                 GameManager.Instance.bullet_play2 = bullets;
         }
+        bool CanGenerateWave()
+        {
+            if (sensorObject.name == "Player1")
+                return Time.time - lastWaveTimePlayer1 >= waveCooldown;
+            else
+                return Time.time - lastWaveTimePlayer2 >= waveCooldown;
+        }
+        void UpdateLastWaveTime()
+        {
+            if (sensorObject.name == "Player1")
+                lastWaveTimePlayer1 = Time.time;
+            else
+                lastWaveTimePlayer2 = Time.time;
+        }
+
+
     }
 }
