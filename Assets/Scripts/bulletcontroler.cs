@@ -4,7 +4,24 @@ public class bulletcontroler : MonoBehaviour
 {
     public AudioClip pickupSound; // Clip de sonido al recoger bala
     public AudioSource audioSource; // Referencia al AudioSource existente
+    public AudioClip appearSound;
 
+    void update()
+    {
+        if(!GameManager.Instance.roundActive)
+        {
+            StartCoroutine(DestroyAfterDelay(.5f));
+        }
+       
+    }
+
+    void Start()
+    {
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(appearSound, 1.0f);
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (pickupSound != null && audioSource != null)

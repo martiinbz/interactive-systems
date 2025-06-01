@@ -145,6 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupSound: {fileID: 8300000, guid: e8828be42991b3346b523963674d51ae, type: 3}
   audioSource: {fileID: -3224935800145304480}
+  appearSound: {fileID: 8300000, guid: 4b8730ca48f545a469a15292e14ebc55, type: 3}
 --- !u!114 &1650539208181986266
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
         while (timeLeft > 0 && !finish)
         {
             timeLeft -= Time.deltaTime;
-            countdownText.text = "Time left: " +timeLeft;
+            countdownText.text = "Time left: " + Mathf.FloorToInt(timeLeft).ToString();
             yield return null;
         }
         winText.text = "Draw! ;(";

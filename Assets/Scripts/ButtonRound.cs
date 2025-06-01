@@ -57,7 +57,7 @@ public class ButtonRound : MonoBehaviour
             isCharging = true;
             if (hoverSound != null && sceneAudioSource != null)
             {
-                sceneAudioSource.PlayOneShot(hoverSound, 1.0f); // Reproducir sonido al entrar
+                sceneAudioSource.PlayOneShot(hoverSound, 3.0f); // Reproducir sonido al entrar
             }
         }
     }
