@@ -8,6 +8,8 @@ public class ButtonRound : MonoBehaviour
     public Color startColor = Color.white;
     public Color chargedColor = Color.green;
     public float chargeTime = 3f;
+    public AudioClip hoverSound; // Clip de sonido al ponerse encima
+    public AudioSource sceneAudioSource; // Referencia al AudioSource existente
 
     private float timer = 0f;
     private bool isCharging = false;
@@ -34,6 +36,7 @@ public class ButtonRound : MonoBehaviour
             }
         }
     }
+
     void OnEnable() //called when set active
     {
         isCharging = false;
@@ -52,6 +55,10 @@ public class ButtonRound : MonoBehaviour
         if (other.gameObject.name == playerName)
         {
             isCharging = true;
+            if (hoverSound != null && sceneAudioSource != null)
+            {
+                sceneAudioSource.PlayOneShot(hoverSound, 1.0f); // Reproducir sonido al entrar
+            }
         }
     }
 

@@ -10,7 +10,7 @@ public class HeartManager : MonoBehaviour
     public AudioClip loseLifeSound; // Clip de sonido al perder vida
 
     private int lives = 3;
-    private AudioSource audioSource;
+    public AudioSource audioSource;
 
     private void Start()
     {
