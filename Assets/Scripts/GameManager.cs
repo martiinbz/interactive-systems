@@ -43,6 +43,11 @@ public class GameManager : MonoBehaviour
     private bool player2Charged = false;
     public bool roundActive = false;
 
+    // Audio for last 10 seconds
+    public AudioSource audioSource;
+    public AudioClip lastSecondsSound;
+    private bool isLastSecondsSoundPlaying = false;
+
     private void Awake()
     {
         if (Instance == null)
@@ -137,8 +142,26 @@ public class GameManager : MonoBehaviour
         {
             timeLeft -= Time.deltaTime;
             countdownText.text = "Time left: " + Mathf.FloorToInt(timeLeft).ToString();
+
+            // Play sound during last 10 seconds
+            if (timeLeft <= 10f && !isLastSecondsSoundPlaying && audioSource != null && lastSecondsSound != null)
+            {
+                audioSource.clip = lastSecondsSound;
+                audioSource.loop = true;
+                audioSource.Play();
+                isLastSecondsSoundPlaying = true;
+            }
+
             yield return null;
         }
+
+        // Stop the sound when round ends
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+            isLastSecondsSoundPlaying = false;
+        }
+
         winText.text = "Draw! ;(";
         winText.color = new Color(1f, 0.4f, 0.7f);
         StartCoroutine(EndRound()); // Handle timeout or continue as needed
