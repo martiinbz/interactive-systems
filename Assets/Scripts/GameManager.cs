@@ -322,8 +322,8 @@ public class GameManager : MonoBehaviour
         // Reset player states
         stateplayer1 = 0;
         stateplayer2 = 0;
-        bullet_play1 = 3;
-        bullet_play2 = 2;
+        bullet_play1 = 0;
+        bullet_play2 = 0;
         play1_safe = false;
         play2_safe = false;
         finish = false;
