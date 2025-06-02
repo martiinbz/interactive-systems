@@ -21,7 +21,7 @@ public class WaveGenerator : MonoBehaviour
     private float lastAboveTime = -10f;
     private float lastBelowTime = -10f;
 
-    private int bullets = 2;
+    private int bullets = 0;
 
     public float waveCooldown = 1.5f;
 

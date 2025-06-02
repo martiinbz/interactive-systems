@@ -28,7 +28,7 @@ public class SafeZoneController : MonoBehaviour
 
         StartCoroutine(FadeInOut());
     }
-    void update()
+    void Update()
     {
         if (!GameManager.Instance.roundActive)
         {

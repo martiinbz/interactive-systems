@@ -6,7 +6,7 @@ public class bulletcontroler : MonoBehaviour
     public AudioSource audioSource; // Referencia al AudioSource existente
     public AudioClip appearSound;
 
-    void update()
+    void Update()
     {
         if(!GameManager.Instance.roundActive)
         {

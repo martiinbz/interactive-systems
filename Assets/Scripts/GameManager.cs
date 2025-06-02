@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     public AudioClip go123;
     public AudioClip finishroundsound;
     private bool isLastSecondsSoundPlaying = false;
+    private bool goended = false;
 
     private void Awake()
     {
@@ -129,6 +130,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator StartRoundCountdown()
     {
+        heartManager1.ResetHearts();
+        heartManager2.ResetHearts();
+        goended = false;
         string[] count = { "1", "2", "3", "Go!" };
         audioSource.PlayOneShot(go123, 6.0f);
         for (int i = 0; i < count.Length; i++)
@@ -136,6 +140,7 @@ public class GameManager : MonoBehaviour
             countdownText.text = count[i];
             yield return new WaitForSeconds(1f);
         }
+        goended = true;
         chargeButtonPlayer1.SetActive(false);
         chargeButtonPlayer2.SetActive(false);
 
@@ -162,10 +167,15 @@ public class GameManager : MonoBehaviour
             // Play sound during last 10 seconds
             if (timeLeft <= 10f && !isLastSecondsSoundPlaying && audioSource != null && lastSecondsSound != null)
             {
+                countdownText.color = Color.red;
                 audioSource.clip = lastSecondsSound;
                 audioSource.loop = true;
                 audioSource.Play();
                 isLastSecondsSoundPlaying = true;
+            }
+            if(goended == false)
+            {
+                countdownText.text = "Finish!";
             }
 
             yield return null;
