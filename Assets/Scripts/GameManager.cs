@@ -188,9 +188,33 @@ public class GameManager : MonoBehaviour
             isLastSecondsSoundPlaying = false;
         }
 
-        winText.text = "Draw! ;(";
-        winText.color = new Color(1f, 0.4f, 0.7f);
-        StartCoroutine(EndRound()); // Handle timeout or continue as needed
+        // Only check for heart-based win if the round hasn't already ended
+        if (!finish)
+        {
+            int redHearts = heartManager1.GetLives();
+            int blueHearts = heartManager2.GetLives();
+            
+            // Check for heart-based win when time runs out
+            if (redHearts > blueHearts)
+            {
+                winText.text = "Red Wins!";
+                winText.color = Color.red;
+                finish = true;
+            }
+            else if (blueHearts > redHearts)
+            {
+                winText.text = "Blue Wins!";
+                winText.color = Color.blue;
+                finish = true;
+            }
+            else
+            {
+                winText.text = "Draw! ;(";
+                winText.color = new Color(1f, 0.4f, 0.7f);
+                finish = true;
+            }
+        }
+        StartCoroutine(EndRound());
     }
 
     public void RegisterHit(string hitPlayerTag, bool wave_color)
@@ -219,19 +243,36 @@ public class GameManager : MonoBehaviour
 
     void isWin()
     {
-        if (redScore >= 3)
+        if (heartManager1.GetLives() <= 0)
+        {
+            winText.text = "Blue Wins!";
+            winText.color = Color.blue;
+            countdownText.text = "";
+            finish = true;
+            StartCoroutine(EndRound());
+        }
+        else if (heartManager2.GetLives() <= 0)
         {
             winText.text = "Red Wins!";
             winText.color = Color.red;
+            countdownText.text = "";
+            finish = true;
+            StartCoroutine(EndRound());
+        }
+        else if (redScore >= 3)
+        {
+            winText.text = "Red Wins!";
+            winText.color = Color.red;
+            finish = true;
             StartCoroutine(EndRound());
         }
         else if (blueScore >= 3)
         {
             winText.text = "Blue Wins!";
             winText.color = Color.blue;
+            finish = true;
             StartCoroutine(EndRound());
         }
-
     }
 
     bool CheckWaveHit(string player, bool wave_color) //wave_color = true for red, false for blue
@@ -288,7 +329,6 @@ public class GameManager : MonoBehaviour
         countdownText.text = "Finish!";
 
         roundActive = false;
-        finish = false;
 
         player1Charged = false;
         player2Charged = false;
@@ -303,7 +343,6 @@ public class GameManager : MonoBehaviour
         UpdateScoreText();
         yield return new WaitForSeconds(8f);
         ResetGame();
-        
     }
     public void ResetGame()
     {
@@ -336,10 +375,6 @@ public class GameManager : MonoBehaviour
         // Reactivate the charge buttons
         chargeButtonPlayer1.SetActive(true);
         chargeButtonPlayer2.SetActive(true);
-
-        // Optional: reset colors
-        //chargeButtonPlayer1.GetComponent<Renderer>().material.color = Color.white;
-        //chargeButtonPlayer2.GetComponent<Renderer>().material.color = Color.white;
 
         // Clear countdown text
         countdownText.text = "";

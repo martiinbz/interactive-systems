@@ -20,10 +20,10 @@ public class HeartManager : MonoBehaviour
             lives--;
             hearts[lives].GetComponent<MeshRenderer>().material = blackMaterial;
 
-            // Reproducir sonido de pérdida de vida
+            // Reproducir sonido de pÃ©rdida de vida
             if (loseLifeSound != null && audioSource != null)
             {
-                Debug.Log("Reproduciendo sonido de pérdida de vida");
+                Debug.Log("Reproduciendo sonido de pÃ©rdida de vida");
                 audioSource.PlayOneShot(loseLifeSound,1.0f);
             }
         }
@@ -36,6 +36,11 @@ public class HeartManager : MonoBehaviour
         {
             heart.GetComponent<MeshRenderer>().material = redMaterial;
         }
+    }
+
+    public int GetLives()
+    {
+        return lives;
     }
 }
 
