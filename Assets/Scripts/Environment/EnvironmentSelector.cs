@@ -13,6 +13,18 @@ public class EnvironmentSelector : MonoBehaviour
     {
         ShowThemeButtons(); // Initial state: show the 3 buttons
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SelectForest();
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            SelectMenu();
+        }
+
+    }
 
     public void SelectForest()
     {

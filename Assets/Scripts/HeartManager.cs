@@ -12,10 +12,6 @@ public class HeartManager : MonoBehaviour
     private int lives = 3;
     public AudioSource audioSource;
 
-    private void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     public void LoseLife()
     {
@@ -27,7 +23,8 @@ public class HeartManager : MonoBehaviour
             // Reproducir sonido de pérdida de vida
             if (loseLifeSound != null && audioSource != null)
             {
-                audioSource.PlayOneShot(loseLifeSound);
+                Debug.Log("Reproduciendo sonido de pérdida de vida");
+                audioSource.PlayOneShot(loseLifeSound,1.0f);
             }
         }
     }

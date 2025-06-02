@@ -13,6 +13,9 @@ public class ThemeButton : MonoBehaviour
     public Color highlightColor = Color.yellow;
     public float selectionTime = 3f;
 
+    public AudioClip hoverSound; // Clip de sonido al ponerse encima
+    public AudioSource sceneAudioSource; // Referencia al AudioSource existente
+
     private float timer = 0f;
     private bool playerInside = false;
     private Material material;
@@ -30,6 +33,7 @@ public class ThemeButton : MonoBehaviour
     {
         if (playerInside)
         {
+            sceneAudioSource.PlayOneShot(hoverSound, 2.0f); // Reproducir sonido al entrar
             timer += Time.deltaTime;
             float t = Mathf.Clamp01(timer / selectionTime);
 

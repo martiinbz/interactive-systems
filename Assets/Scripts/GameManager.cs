@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     // Audio for last 10 seconds
     public AudioSource audioSource;
     public AudioClip lastSecondsSound;
+    public AudioClip go123;
+    public AudioClip finishroundsound;
     private bool isLastSecondsSoundPlaying = false;
 
     private void Awake()
@@ -62,10 +64,18 @@ public class GameManager : MonoBehaviour
         chargeButtonPlayer2.SetActive(false);
     }
 
-    private void update()
+    private void Update()
     {
         red_state.text = "State Red: " + stateplayer1;
-       
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            StartCoroutine(StartRoundCountdown());
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            ResetGame();
+        }
+
     }
 
     public void NotifyPlayerCharged(string tag)
@@ -119,9 +129,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator StartRoundCountdown()
     {
-        roundActive = true;
-
         string[] count = { "1", "2", "3", "Go!" };
+        audioSource.PlayOneShot(go123, 6.0f);
         for (int i = 0; i < count.Length; i++)
         {
             countdownText.text = count[i];
@@ -136,13 +145,20 @@ public class GameManager : MonoBehaviour
 
     IEnumerator RoundTimer()
     {
+        roundActive = true;
         float timeLeft = roundTime;
         // Optionally show a timer in the UI
         while (timeLeft > 0 && !finish)
         {
             timeLeft -= Time.deltaTime;
-            countdownText.text = "Time left: " + Mathf.FloorToInt(timeLeft).ToString();
-
+            if (Mathf.FloorToInt(timeLeft) > 0)
+            {
+                countdownText.text = "Time left: " + Mathf.FloorToInt(timeLeft).ToString();
+            }
+            else
+            {
+                countdownText.text = "Finish!";
+            }
             // Play sound during last 10 seconds
             if (timeLeft <= 10f && !isLastSecondsSoundPlaying && audioSource != null && lastSecondsSound != null)
             {
@@ -258,6 +274,9 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator EndRound()
     {
+        audioSource.PlayOneShot(finishroundsound, 4.0f);
+        countdownText.text = "Finish!";
+
         roundActive = false;
         finish = false;
 
@@ -272,7 +291,7 @@ public class GameManager : MonoBehaviour
         redScore = 0;
         blueScore = 0;
         UpdateScoreText();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(8f);
         ResetGame();
         
     }
